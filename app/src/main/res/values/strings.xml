@@ -1,0 +1,12 @@
+<resources>
+
+    <string name="app_name">MovingTool</string>
+    <string name="submit">New Item</string>
+    <string name="name">Name</string>
+    <string name="title">Title</string>
+    <string name="value">Est. Value</string>
+    <string name="keep">Keep</string>
+    <string name="sell">Sell</string>
+    <string name="store">Store somewhere</string>
+    <string name="ownership">Ownership</string>
+</resources>
