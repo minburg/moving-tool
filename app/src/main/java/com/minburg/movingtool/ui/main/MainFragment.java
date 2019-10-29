@@ -26,6 +26,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.LinearSmoothScroller;
@@ -48,6 +49,8 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+
+import static android.app.Activity.RESULT_OK;
 
 public class MainFragment extends Fragment {
 
@@ -116,6 +119,24 @@ public class MainFragment extends Fragment {
         return rootView;
     }
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (resultCode == RESULT_OK) {
+//        if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
+
+
+            if(((MainActivity) getActivity()).getImageFile() != null) {
+
+                Navigation.findNavController(getView()).navigate(R.id.nav_new_personal_item);
+
+            }
+        }
+    }
+
+
+
     private void setNewData(List<PersonalItem> personalItems) {
 
         recyclerAdapter.setItems(personalItems);
@@ -162,12 +183,18 @@ public class MainFragment extends Fragment {
     }
 
     public void editItemFragment(PersonalItem item) {
-        FragmentTransaction transaction = getActivity().getSupportFragmentManager()
-                .beginTransaction();
-        EditPersonalItemFragment frag = EditPersonalItemFragment.newInstance();
-        frag.setObject(item);
-        transaction.replace(R.id.container, frag)
-                .commitNow();
+
+        MainFragmentDirections.NavigateToEditItem action = MainFragmentDirections.navigateToEditItem();
+        action.setItem(item);
+        Navigation.findNavController(getView()).navigate(action);
+
+
+//        FragmentTransaction transaction = getActivity().getSupportFragmentManager()
+//                .beginTransaction();
+//        EditPersonalItemFragment frag = EditPersonalItemFragment.newInstance();
+//        frag.setObject(item);
+//        transaction.replace(R.id.container, frag)
+//                .commitNow();
     }
 
     private void dispatchTakePictureIntent() {

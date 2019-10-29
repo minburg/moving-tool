@@ -4,13 +4,14 @@ import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 import androidx.room.TypeConverters;
 
+import java.io.Serializable;
 import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
 @Entity(tableName = "personal_items_table")
-public class PersonalItem {
+public class PersonalItem implements Serializable {
     @PrimaryKey(autoGenerate = true)
     private int id;
     private String name;

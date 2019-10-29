@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@+id/nav_home">
+
+    <fragment
+        android:id="@+id/nav_home"
+        android:name="com.minburg.movingtool.ui.main.MainFragment"
+        android:label="@string/menu_home"
+        tools:layout="@layout/main_fragment">
+        <action android:id="@+id/navigate_to_edit_item"
+            app:destination="@id/nav_edit_personal_item"/>
+        <action
+            android:id="@+id/action_nav_home_to_nav_categories"
+            app:destination="@id/nav_categories" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/nav_categories"
+        android:name="com.minburg.movingtool.ui.main.NewCategoryFragment"
+        android:label="@string/menu_categories"
+        tools:layout="@layout/new_category_fragment" />
+
+    <fragment
+        android:id="@+id/nav_new_personal_item"
+        android:name="com.minburg.movingtool.ui.main.NewPersonalItemFragment"
+        android:label="@string/menu_new_item"
+        tools:layout="@layout/new_personal_item_fragment" />
+
+    <fragment
+        android:id="@+id/nav_edit_personal_item"
+        android:name="com.minburg.movingtool.ui.main.EditPersonalItemFragment"
+        android:label="@string/menu_edit_item"
+        tools:layout="@layout/new_personal_item_fragment" >
+        <argument
+            android:name="Item"
+            app:argType="com.minburg.movingtool.models.PersonalItem"
+            android:defaultValue="@null"
+            app:nullable="true" />
+    </fragment>
+
+</navigation>

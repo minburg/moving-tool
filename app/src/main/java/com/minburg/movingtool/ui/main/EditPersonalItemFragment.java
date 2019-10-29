@@ -15,6 +15,7 @@ import android.widget.RadioGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.lifecycle.ViewModelProviders;
+import androidx.navigation.Navigation;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
@@ -35,10 +36,6 @@ public class EditPersonalItemFragment extends DetailFragment {
         return new EditPersonalItemFragment();
     }
 
-    public void setObject(PersonalItem item){
-        personalItem = item;
-    }
-
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
@@ -47,6 +44,8 @@ public class EditPersonalItemFragment extends DetailFragment {
         View rootView = inflater.inflate(R.layout.new_personal_item_fragment, container, false);
 
         mViewModel = ViewModelProviders.of(this).get(MainViewModel.class);
+
+        personalItem = EditPersonalItemFragmentArgs.fromBundle(getArguments()).getItem();
 
         editTextName = rootView.findViewById(R.id.edit_text_name);
         editTextName.setText(personalItem.getName());
@@ -144,9 +143,11 @@ public class EditPersonalItemFragment extends DetailFragment {
                     //Close keyBoard in transition
                     hideKeyboard();
 
-                    getActivity().getSupportFragmentManager().beginTransaction()
-                            .replace(R.id.container, MainFragment.newInstance())
-                            .commitNow();
+                    Navigation.findNavController(getView()).navigate(R.id.nav_home);
+
+//                    getActivity().getSupportFragmentManager().beginTransaction()
+//                            .replace(R.id.fragment_container, MainFragment.newInstance())
+//                            .commitNow();
                 }
             }
         });

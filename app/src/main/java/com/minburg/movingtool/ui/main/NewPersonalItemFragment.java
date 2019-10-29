@@ -21,6 +21,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
+import androidx.navigation.Navigation;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
@@ -125,9 +126,11 @@ public class NewPersonalItemFragment extends DetailFragment {
 
                     hideKeyboard();
 
-                    getActivity().getSupportFragmentManager().beginTransaction()
-                            .replace(R.id.container, MainFragment.newInstance())
-                            .commitNow();
+                    Navigation.findNavController(getView()).navigate(R.id.nav_home);
+
+//                    getActivity().getSupportFragmentManager().beginTransaction()
+//                            .replace(R.id.fragment_container, MainFragment.newInstance())
+//                            .commitNow();
                 }
             }
         });
