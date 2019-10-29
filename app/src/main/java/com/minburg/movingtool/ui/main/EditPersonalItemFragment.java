@@ -14,6 +14,7 @@ import android.widget.RadioGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.navigation.Navigation;
 
@@ -26,9 +27,12 @@ import com.minburg.movingtool.models.Ownership;
 import com.minburg.movingtool.models.PersonalItem;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 public class EditPersonalItemFragment extends DetailFragment {
     private PersonalItem personalItem;
+    private List<Category> categories = new ArrayList<>();
 
 
     public static EditPersonalItemFragment newInstance() {
@@ -44,6 +48,13 @@ public class EditPersonalItemFragment extends DetailFragment {
         View rootView = inflater.inflate(R.layout.new_personal_item_fragment, container, false);
 
         mViewModel = ViewModelProviders.of(this).get(MainViewModel.class);
+        mViewModel.getAllCategoriesWithSorting().observe(getActivity(), new Observer<List<Category>>() {
+            @Override
+            public void onChanged(List<Category> categories) {
+                setNewData(categories);
+
+            }
+        });
 
         personalItem = EditPersonalItemFragmentArgs.fromBundle(getArguments()).getItem();
 
@@ -84,7 +95,7 @@ public class EditPersonalItemFragment extends DetailFragment {
         spinner = rootView.findViewById(R.id.spinnerCategory);
         radioGroup = (RadioGroup) rootView.findViewById(R.id.radio_group);
 
-        ArrayAdapter<Category> adapter = new ArrayAdapter<Category>(getActivity().getBaseContext(), R.layout.simple_spinner_item, R.id.tvSpinner, Category.values());
+        ArrayAdapter<Category> adapter = new ArrayAdapter<Category>(getActivity().getBaseContext(), R.layout.simple_spinner_item, R.id.tvSpinner, categories);
         spinner.setAdapter(adapter);
         int spinnerPosition = adapter.getPosition(personalItem.getCategory());
         spinner.setSelection(spinnerPosition);
@@ -134,7 +145,7 @@ public class EditPersonalItemFragment extends DetailFragment {
                 if (nameNotEmpty && valueNotEmpty) {
 
 
-                    Category category = Category.valueOf(spinner.getSelectedItem().toString());
+                    Category category = new Category(spinner.getSelectedItem().toString());
                     newItem = new PersonalItem(editTextName.getText().toString(), Integer.parseInt(value), category, ownership, file.getPath(), "");
                     newItem.setId(personalItem.getId());
                     newItem.setDate(personalItem.getDate());
@@ -153,5 +164,10 @@ public class EditPersonalItemFragment extends DetailFragment {
         });
 
         return rootView;
+    }
+
+    private void setNewData(List<Category> categories) {
+        this.categories = categories;
+        spinner.setAdapter(new ArrayAdapter<Category>(getActivity().getBaseContext(), R.layout.simple_spinner_item, R.id.tvSpinner, this.categories));
     }
 }

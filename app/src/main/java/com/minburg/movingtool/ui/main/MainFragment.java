@@ -23,11 +23,9 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.navigation.Navigation;
-import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.LinearSmoothScroller;
 import androidx.recyclerview.widget.RecyclerView;
@@ -39,7 +37,7 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.minburg.movingtool.MainActivity;
 import com.minburg.movingtool.R;
-import com.minburg.movingtool.adapters.RecyclerAdapter;
+import com.minburg.movingtool.adapters.MainRecyclerAdapter;
 import com.minburg.movingtool.models.Ownership;
 import com.minburg.movingtool.models.PersonalItem;
 import com.minburg.movingtool.models.SortType;
@@ -57,7 +55,7 @@ public class MainFragment extends Fragment {
     private MainViewModel mViewModel;
     RecyclerView recyclerView;
     RecyclerView.LayoutManager rvLayoutManager;
-    RecyclerAdapter recyclerAdapter;
+    MainRecyclerAdapter mainRecyclerAdapter;
     FloatingActionButton fab;
 
     static final int REQUEST_IMAGE_CAPTURE = 1;
@@ -70,10 +68,6 @@ public class MainFragment extends Fragment {
     private boolean changeIsDeleting = false;
     private TextView accumulatedText;
 
-
-    public static MainFragment newInstance() {
-        return new MainFragment();
-    }
 
     @Nullable
     @Override
@@ -89,8 +83,8 @@ public class MainFragment extends Fragment {
         rvLayoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(rvLayoutManager);
 
-        recyclerAdapter = new RecyclerAdapter(getContext(), MainFragment.this);
-        recyclerView.setAdapter(recyclerAdapter);
+        mainRecyclerAdapter = new MainRecyclerAdapter(getContext(), MainFragment.this);
+        recyclerView.setAdapter(mainRecyclerAdapter);
 
 
         mViewModel = ViewModelProviders.of(getActivity()).get(MainViewModel.class);
@@ -139,7 +133,7 @@ public class MainFragment extends Fragment {
 
     private void setNewData(List<PersonalItem> personalItems) {
 
-        recyclerAdapter.setItems(personalItems);
+        mainRecyclerAdapter.setItems(personalItems);
 
         if (!changeIsDeleting && getActivity() != null) {
             RecyclerView.SmoothScroller smoothScroller = new LinearSmoothScroller(getActivity()) {
@@ -247,8 +241,8 @@ public class MainFragment extends Fragment {
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                recyclerAdapter.getFilter().filter(newText);
-                recyclerAdapter.setCurrentFilter(newText);
+                mainRecyclerAdapter.getFilter().filter(newText);
+                mainRecyclerAdapter.setCurrentFilter(newText);
                 return false;
             }
         });

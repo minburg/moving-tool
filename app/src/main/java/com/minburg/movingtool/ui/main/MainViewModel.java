@@ -12,6 +12,7 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.Transformations;
 
+import com.minburg.movingtool.models.Category;
 import com.minburg.movingtool.models.PersonalItem;
 import com.minburg.movingtool.models.SortType;
 import com.minburg.movingtool.repositories.PersonalItemRepository;
@@ -20,6 +21,7 @@ import java.util.List;
 
 public class MainViewModel extends AndroidViewModel {
     private LiveData<List<PersonalItem>> allPersonalItems;
+    private LiveData<List<Category>> allCategories;
     private PersonalItemRepository repository;
     private MutableLiveData<SortType> sortType = new MutableLiveData<>();
 
@@ -43,10 +45,20 @@ public class MainViewModel extends AndroidViewModel {
             }
         });
 
+        allCategories = Transformations.switchMap(sortType, new Function<SortType, LiveData<List<Category>>>() {
+            @Override
+            public LiveData<List<Category>> apply(SortType input) {
+                return repository.getAllICategoriesSorted();
+            }
+        });
+
     }
 
     public void insert(PersonalItem personalItem) {
         repository.insert(personalItem);
+    }
+    public void insert(Category category) {
+        repository.insert(category);
     }
 
     public void update(PersonalItem personalItem) {
@@ -56,15 +68,19 @@ public class MainViewModel extends AndroidViewModel {
     public void delete(PersonalItem personalItem) {
         repository.delete(personalItem);
     }
+    public void delete(Category category) {
+        repository.delete(category);
+    }
 
     public void deleteAllItems() {
         repository.deleteAll();
     }
 
     public LiveData<List<PersonalItem>> getAllItemsWithSorting() {
-
         return allPersonalItems;
-
+    }
+    public LiveData<List<Category>> getAllCategoriesWithSorting() {
+        return allCategories;
     }
 
     public void sortItems(SortType sort) {
@@ -73,10 +89,6 @@ public class MainViewModel extends AndroidViewModel {
         sortType.postValue(sort);
     }
 
-    public LiveData<List<PersonalItem>> getItemsSortedByName() {
-        allPersonalItems = repository.getItemsSortedByName();
-        return allPersonalItems;
-    }
 
 /*    public void addNewValue(final PersonalItem personalItem) {
         mIsUpdating.setValue(true);

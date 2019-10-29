@@ -28,7 +28,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements Filterable {
+public class MainRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements Filterable {
 
 
     //    private MainViewModel mViewModel;
@@ -40,7 +40,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     private MainFragment fragment;
     private String currentFilter = "";
 
-    public RecyclerAdapter(Context context, MainFragment fragment) {
+    public MainRecyclerAdapter(Context context, MainFragment fragment) {
         this.context = context;
         this.fragment = fragment;
     }

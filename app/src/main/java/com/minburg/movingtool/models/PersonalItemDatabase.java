@@ -10,12 +10,13 @@ import androidx.room.Room;
 import androidx.room.RoomDatabase;
 import androidx.sqlite.db.SupportSQLiteDatabase;
 
-@Database(entities = PersonalItem.class, version = 1, exportSchema = false)
+@Database(entities = {PersonalItem.class, Category.class}, version = 2, exportSchema = false)
 public abstract class PersonalItemDatabase extends RoomDatabase {
 
     private static PersonalItemDatabase instance;
 
     public abstract PersonalItemsDao personalItemsDao();
+    public abstract CategoriesDao categoriesDao();
 
     public static synchronized PersonalItemDatabase getInstance(Context context){
         if(instance == null){
@@ -37,19 +38,18 @@ public abstract class PersonalItemDatabase extends RoomDatabase {
 
     private static class PopulateDbAsyncTask extends AsyncTask<Void, Void, Void> {
         private PersonalItemsDao personalItemsDao;
+        private CategoriesDao categoriesDao;
 
         private PopulateDbAsyncTask(PersonalItemDatabase db){
             personalItemsDao = db.personalItemsDao();
+            categoriesDao = db.categoriesDao();
         }
 
         @Override
         protected Void doInBackground(Void... voids) {
-//            personalItemsDao.insert(new PersonalItem("0", 35, Category.Crafting_Material, Ownership.Keep, "deag", "sdgd"));
-//            personalItemsDao.insert(new PersonalItem("1", 3315, Category.Tools, Ownership.Keep, "deag", "sdgd"));
-//            personalItemsDao.insert(new PersonalItem("2", 15, Category.Clothing, Ownership.Keep, "deag", "sdgd"));
-//            personalItemsDao.insert(new PersonalItem("3", 35, Category.Crafting_Material, Ownership.Keep, "deag", "sdgd"));
-//            personalItemsDao.insert(new PersonalItem("4", 3315, Category.Tools, Ownership.Keep, "deag", "sdgd"));
-//            personalItemsDao.insert(new PersonalItem("5", 3315, Category.Tools, Ownership.Keep, "deag", "sdgd"));
+            categoriesDao.insert(new Category("Default"));
+//            personalItemsDao.insert(new PersonalItem("0", 35, new Category("Essen"), Ownership.Keep, "deag", "sdgd"));
+//            personalItemsDao.insert(new PersonalItem("1", 3315, new Category("Laufen"), Ownership.Keep, "deag", "sdgd"));
 
 
             return null;

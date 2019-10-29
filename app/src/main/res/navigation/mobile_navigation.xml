@@ -19,9 +19,9 @@
 
     <fragment
         android:id="@+id/nav_categories"
-        android:name="com.minburg.movingtool.ui.main.NewCategoryFragment"
+        android:name="com.minburg.movingtool.ui.main.CategoriesFragment"
         android:label="@string/menu_categories"
-        tools:layout="@layout/new_category_fragment" />
+        tools:layout="@layout/categories_fragment" />
 
     <fragment
         android:id="@+id/nav_new_personal_item"

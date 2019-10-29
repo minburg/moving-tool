@@ -110,11 +110,4 @@ public class PersonalItem implements Serializable {
         this.firebaseStorage = firebaseStorage;
     }
 
-    public static List<PersonalItem> cloneList(List<PersonalItem> dogList) {
-        List<PersonalItem> clonedList = new ArrayList<PersonalItem>(dogList.size());
-        for (PersonalItem dog : dogList) {
-            clonedList.add(new PersonalItem(dog));
-        }
-        return clonedList;
-    }
 }

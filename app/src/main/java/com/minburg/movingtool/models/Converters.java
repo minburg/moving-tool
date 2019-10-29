@@ -23,12 +23,12 @@ public class Converters {
 
     @TypeConverter
     public static Category toCategory(String value) {
-        return Category.valueOf(value);
+        return new Category(value);
     }
 
     @TypeConverter
     public static String toString(Category value) {
-        return value.toString();
+        return value.getName();
     }
 
     @TypeConverter
