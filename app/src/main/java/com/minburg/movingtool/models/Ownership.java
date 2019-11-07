@@ -3,7 +3,7 @@ package com.minburg.movingtool.models;
 import androidx.annotation.NonNull;
 
 public enum Ownership {
-    Keep("K"), Sell("S"), Store_Somewhere("?");
+    Keep("Keep"), Sell("Sell"), Store_Somewhere("Store");
 
     private String string;
 
